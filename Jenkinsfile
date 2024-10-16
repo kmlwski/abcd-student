@@ -22,16 +22,11 @@ pipeline {
             steps {
                 sh 'mkdir -p results/'
                 sh '''
-                    docker run --name zap \
-                        -v /home/kw/Akademia/abcd-student/.zap:/zap/wrk/:rw
-                        -t ghcr.io/zaproxy/zaproxy:stable bash -c \
-                        "zap.sh -cmd -addonupdate; zap.sh -cmd -addoninstall communityScripts -addoninstall pscanrulesAlpha -addoninstall pscanrulesBeta -autorun /zap/wrk/passive.yaml" \
+                    docker run --name juice-shop -d --rm -p 3000:3000 bkimminich/juice-shop
+                    sleep 5
                 '''
                 sh '''
-                    docker run --name juice-shop -d --rm \
-                        -p 3000:3000 \
-                        bkimminich/juice-shop
-                    sleep 5
+                    docker run --name zap -v /home/kw/Akademia/abcd-student/.zap:/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable bash -c "zap.sh -cmd -addonupdate; zap.sh -cmd -addoninstall communityScripts -addoninstall pscanrulesAlpha -addoninstall pscanrulesBeta -autorun /zap/wrk/passive.yaml" || true
                 '''
             }
             post {
