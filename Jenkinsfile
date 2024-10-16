@@ -12,28 +12,14 @@ pipeline {
                 }
             }
         }
-        stage('[ZAP] Baseline passive-scan') {
+        stage('[OSV-Scanner] scan') {
             steps {
-                sh 'mkdir -p results/'
                 sh '''
-                    docker run --name juice-shop -d --rm -p 3000:3000 bkimminich/juice-shop
-                    sleep 5
-                '''
-                sh '''
-                    docker run --name zap -v /home/kw/Akademia/abcd-student/.zap:/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable bash -c "zap.sh -cmd -addonupdate; zap.sh -cmd -addoninstall communityScripts -addoninstall pscanrulesAlpha -addoninstall pscanrulesBeta -autorun /zap/wrk/passive.yaml"
+                osv-scanner scan --format json --lockfile package-lock.json > ${WORKSPACE}/results/osvscannerResult.xml
                 '''
             }
             post {
                 always {
-                    sh '''
-                        docker cp zap:/zap/wrk/zap_xml_report.xml ${WORKSPACE}/results/zap_xml_report.xml
-                        docker stop zap juice-shop
-                        docker rm zap
-                    '''
-                    defectDojoPublisher(artifact: '${WORKSPACE}/results/zap_xml_report.xml', 
-                        productName: 'Juice Shop', 
-                        scanType: 'ZAP Scan',
-                        engagementName: 'kml.wski@gmail.com')
                 }
             }
         }
