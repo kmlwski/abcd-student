@@ -20,11 +20,5 @@ pipeline {
                 '''
             }
         }
-        stage('Example') {
-            steps {
-                echo 'Hello!'
-                sh 'ls -la'
-            }
-        }
 }
 }
