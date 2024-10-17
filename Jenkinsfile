@@ -21,7 +21,7 @@ pipeline {
             }
             post {
                 always {
-                    defectDojoPublisher(artifact: '${WORKSPACE}/results/zap_xml_report.xml', 
+                    defectDojoPublisher(artifact: '${WORKSPACE}/results/osvscannerResult.json', 
                         productName: 'Juice Shop', 
                         scanType: 'OSV Scan',
                         engagementName: 'kml.wski@gmail.com')
