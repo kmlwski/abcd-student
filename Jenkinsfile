@@ -21,7 +21,9 @@ pipeline {
             post {
                 always {
                 steps {
-                    echo 'Hello!'
+                    sh '''
+                echo 'Hello!'
+                '''
                 }
             }
         }
