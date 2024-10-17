@@ -19,15 +19,6 @@ pipeline {
                 osv-scanner scan --format json --lockfile package-lock.json > ${WORKSPACE}/results/osvscannerResult.xml
                 '''
             }
-            post {
-                always {
-                steps {
-                    sh '''
-                echo 'Hello!'
-                '''
-                }
-            }
-        }
 
     }
 }
