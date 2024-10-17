@@ -15,11 +15,13 @@ pipeline {
         stage('[OSV-Scanner] scan') {
             steps {
                 sh '''
-                osv-scanner scan --format json --lockfile /home/kw/abcd-student/package-lock.json > ${WORKSPACE}/results/osvscannerResult.xml
+                osv-scanner scan --format json --lockfile package-lock.json > ${WORKSPACE}/results/osvscannerResult.xml
                 '''
             }
             post {
                 always {
+                steps {
+                    echo 'Hello!'
                 }
             }
         }
