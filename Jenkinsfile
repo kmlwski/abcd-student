@@ -12,11 +12,11 @@ pipeline {
                 }
             }
         }
-        stage('[OSV-Scanner] scan') {
+        stage('[Trufflehog] scan') {
             steps {
                 sh 'mkdir -p results/'
                 sh '''
-                osv-scanner scan --format json --lockfile package-lock.json > ${WORKSPACE}/results/osvscannerResult.json || true
+                trufflehog git . --json > ${WORKSPACE}/results/TruffleHogResult.json || true
                 '''
             }
         }
