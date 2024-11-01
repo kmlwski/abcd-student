@@ -16,16 +16,8 @@ pipeline {
             steps {
                 sh 'mkdir -p results/'
                 sh '''
-                trufflehog github --repo=https://github.com/kmlwski/abcd-student --json > ${WORKSPACE}/results/TruffleHogResult.json || true
+                semgrep scan --config auto --json > ${WORKSPACE}/results/SemgrepResult.json || true
                 '''
-            }
-            post {
-            always {
-                defectDojoPublisher(artifact: '${WORKSPACE}/results/TruffleHogResult.json', 
-                    productName: 'Juice Shop', 
-                    scanType: 'Trufflehog Scan',
-                    engagementName: 'kml.wski@gmail.com')
-            }
             }
         }
 }
