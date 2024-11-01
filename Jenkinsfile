@@ -16,7 +16,7 @@ pipeline {
             steps {
                 sh 'mkdir -p results/'
                 sh '''
-                trufflehog --repo=https://github.com/kmlwski/abcd-student --json > ${WORKSPACE}/results/TruffleHogResult.json || true
+                trufflehog github --repo=https://github.com/kmlwski/abcd-student --json > ${WORKSPACE}/results/TruffleHogResult.json || true
                 '''
             }
         }
