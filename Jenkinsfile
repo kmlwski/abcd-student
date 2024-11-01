@@ -19,6 +19,14 @@ pipeline {
                 semgrep scan --config auto --json > ${WORKSPACE}/results/SemgrepResult.json || true
                 '''
             }
+            post {
+            always {
+                defectDojoPublisher(artifact: '${WORKSPACE}/results/SemgrepResult.json', 
+                    productName: 'Juice Shop', 
+                    scanType: 'Semgrep JSON Report',
+                    engagementName: 'kml.wski@gmail.com')
+            }
+            }
         }
 }
 }
