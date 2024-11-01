@@ -19,14 +19,6 @@ pipeline {
                 osv-scanner scan --format json --lockfile package-lock.json > ${WORKSPACE}/results/osvscannerResult.json || true
                 '''
             }
-            post {
-                always {
-                    defectDojoPublisher(artifact: '${WORKSPACE}/results/osvscannerResult.json', 
-                        productName: 'Juice Shop', 
-                        scanType: 'OSV Scan',
-                        engagementName: 'kml.wski@gmail.com')
-                }
-            }
         }
 }
 }
